@@ -1,0 +1,14 @@
+android/*.iml
+android/.gradle
+android/local.properties
+android/.idea/caches/build_file_checksums.ser
+android/.idea/libraries
+android/.idea/modules.xml
+android/.idea/workspace.xml
+android/.DS_Store
+android/build
+android/captures
+android/.externalNativeBuild
+
+goServer/server
+android/app/src/main/java/com/example/heidthecamp/theupsiddown/networkSettings.java
