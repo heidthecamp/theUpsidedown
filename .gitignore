@@ -12,3 +12,5 @@ android/.externalNativeBuild
 
 goServer/server
 android/app/src/main/java/com/example/heidthecamp/theupsiddown/networkSettings.java
+
+rest-api/rest-api
