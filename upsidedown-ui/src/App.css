@@ -1,0 +1,23 @@
+.App {
+  text-align: center;
+}
+
+html, body{
+  height: 100%;
+  margin: 0px;
+}
+
+#wrapper {
+  min-height: 100%;
+}
+
+#push {
+  overflow: auto;
+  padding: 10px;
+  padding-bottom: 25px;
+}
+
+footer,
+#push {
+  height: 25px;
+}
