@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import './Form.css'
+// import { lookup } from 'dns';
 
-const url = "http://192.168.50.153:8081/upsidedown"
+const url = "http://localhost:8081/upsidedown"
 // const lights = "./img/lightsString.png"
 
 class Form extends Component {
@@ -12,7 +13,6 @@ class Form extends Component {
             sending: false,
         }
 
-        this.handleSubmit = this.handleSubmit.bind(this)
         this.handleChange = this.handleChange.bind(this)
         this.getContet = this.getContet.bind(this)
     }
@@ -24,7 +24,7 @@ class Form extends Component {
         })
     }
 
-    handleSubmit(event) {
+    handleSubmit = (event) => {
         event.preventDefault();
         // const data = new FormData(event.target)
 
@@ -34,25 +34,58 @@ class Form extends Component {
         
         this.setState({sending: true})
 
-        fetch(url, {
+        // debugger;
+        
+        var request = new Request (url, {
             method: 'POST',
+            mode: 'no-cors',
             body: JSON.stringify(data),
-            mode: "no-cors",
+            credentials: "same-origin",
             headers: {
                 "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "origin-list"
-            }
-        }).then(res => {
-            return res.json();
-        }).then(data => {
-            console.log(data)
+                "Accept": "application/json",
+            },
         })
+
+        fetch(request)
+        .then(res => res.body)
+        .then(body => {
+            const reader = body.getReader()
+
+            return new ReadableStream({
+                start(controller) {
+                    return pump() 
+                    
+                    function pump () {
+                        
+                    }
+                }
+            })
+        })
+        
         setTimeout(() => {
             this.setState({
                 sending: false,
                 content: "",
             })
         }, 2500)
+
+        .catch(e => {
+            console.error(e)
+        })
+
+        // function getMoviesFromApiAsync() {
+        //     return fetch('https://facebook.github.io/react-native/movies.json')
+        //       .then((response) => response.json())
+        //       .then((responseJson) => {
+        //         return responseJson.movies;
+        //       })
+        //       .catch((error) => {
+        //         console.error(error);
+        //       });
+        //   }
+
+        
 
     }
 

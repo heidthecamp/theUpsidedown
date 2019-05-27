@@ -7,7 +7,7 @@ import Form from './Form'
 class App extends Component {
   render() {
     return (
-      <body>
+      <div className="content">
         <div id="wrapper">
           <div id="content">
             <Header />
@@ -15,7 +15,7 @@ class App extends Component {
           </div>
         </div>
         <Footer />
-      </body>
+      </div>
     )
   }
 }
