@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
 import './Form.css'
-// import { lookup } from 'dns';
+// import axios from 'axios'
 
 const url = "http://localhost:8081/upsidedown"
-// const lights = "./img/lightsString.png"
 
 class Form extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
             content: "",
@@ -16,81 +15,62 @@ class Form extends Component {
         this.handleChange = this.handleChange.bind(this)
         this.getContet = this.getContet.bind(this)
     }
-    handleChange(e){
+    handleChange(e) {
         const { name, value } = e.target
-        // value = value.toUpperCase()
         this.setState({
             [name]: value
         })
     }
 
-    handleSubmit = (event) => {
+    handleSubmit = async (event) => {
         event.preventDefault();
-        // const data = new FormData(event.target)
-
+        this.setState({ content: this.state.content, sending: true })
+        const toSend = this.state.content
         const data = {
-            content: this.state.content
+            'content': `${toSend}`
         }
-        
-        this.setState({sending: true})
 
-        // debugger;
-        
-        var request = new Request (url, {
+        console.dir(data)
+
+        var request =
+        {
             method: 'POST',
             mode: 'no-cors',
-            body: JSON.stringify(data),
-            credentials: "same-origin",
+            cache: 'no-cache',
             headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json",
+                'Content-Type': 'application/json',
             },
-        })
+            body: JSON.stringify(data),
+        }
 
-        fetch(request)
-        .then(res => res.body)
-        .then(body => {
-            const reader = body.getReader()
+        fetch(url, request).then(res => {
+            const response = res.json();
+            console.log(response.body)
 
-            return new ReadableStream({
-                start(controller) {
-                    return pump() 
-                    
-                    function pump () {
-                        
-                    }
-                }
+            setTimeout(() => {
+                this.setState({
+                    sending: false,
+                    content: "",
+                })
+            }, 2500)
+        }).catch(error => {
+            console.error(error)
+            this.setState({
+                sending: false,
+                content: "",
             })
         })
-        
+
         setTimeout(() => {
             this.setState({
                 sending: false,
                 content: "",
             })
         }, 2500)
-
-        .catch(e => {
-            console.error(e)
-        })
-
-        // function getMoviesFromApiAsync() {
-        //     return fetch('https://facebook.github.io/react-native/movies.json')
-        //       .then((response) => response.json())
-        //       .then((responseJson) => {
-        //         return responseJson.movies;
-        //       })
-        //       .catch((error) => {
-        //         console.error(error);
-        //       });
-        //   }
-
-        
-
     }
 
     getContet() {
-        return( this.state.sending ? 
+        return (this.state.sending ?
             <div className="sending" /> :
             <form name="communicate" onSubmit={this.handleSubmit}>
                 <input type="text" id="content" placeholder="A B C D E F G H I J K L M N O P Q R S T U V W X Y Z" name="content" onChange={this.handleChange} value={this.state.content} />
@@ -105,8 +85,8 @@ class Form extends Component {
     }
 
 
-    render(){
-        return(
+    render() {
+        return (
             <div className="content">
                 {this.getContet()}
             </div>

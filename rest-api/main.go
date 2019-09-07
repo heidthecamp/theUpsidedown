@@ -47,11 +47,7 @@ func genId() (id int) {
 }
 
 func CreateMessage(w http.ResponseWriter, r *http.Request) {
-
-	header := w.Header()
-	header.Add("Access-Control-Allow-Origin", "*")
-	header.Add("Access-Control-Allow-Methods", "DELETE, POST, GET, OPTIONS")
-	header.Add("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With")
+	SetCORSHeaders(w)
 
 	w.WriteHeader(http.StatusOK)
 
@@ -72,6 +68,8 @@ func CreateMessage(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteMessage(w http.ResponseWriter, r *http.Request) {
+	SetCORSHeaders(w)
+
 	params := mux.Vars(r)
 
 	sId, err := strconv.Atoi(params["id"])
@@ -93,6 +91,14 @@ func DeleteMessage(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetMessage(w http.ResponseWriter, r *http.Request) {
+	SetCORSHeaders(w)
+
+	header := w.Header()
+	header.Add("Access-Control-Allow-Origin", "*")
+	header.Add("Access-Control-Allow-Methods", "DELETE, POST, GET, OPTIONS")
+	header.Add("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With")
+	header.Add("Content-Type", "application/json; charset=utf-8")
+
 	params := mux.Vars(r)
 
 	sId, err := strconv.Atoi(params["id"])
@@ -113,6 +119,7 @@ func GetMessage(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetMessages(w http.ResponseWriter, r *http.Request) {
+	SetCORSHeaders(w)
 
 	enc := json.NewEncoder(w)
 	enc.SetIndent("", "  ")
@@ -122,9 +129,19 @@ func GetMessages(w http.ResponseWriter, r *http.Request) {
 }
 
 func IsUp(w http.ResponseWriter, r *http.Request) {
+	SetCORSHeaders(w)
+
 	enc := json.NewEncoder(w)
 	enc.SetIndent("", "  ")
 	enc.Encode("The server is up")
 	print, _ := json.Marshal("The server is up")
 	log.Println(string(print))
+}
+
+func SetCORSHeaders(w http.ResponseWriter) {
+	header := w.Header()
+	header.Add("Access-Control-Allow-Origin", "*")
+	header.Add("Access-Control-Allow-Methods", "DELETE, POST, GET, OPTIONS")
+	header.Add("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With")
+	header.Add("Content-Type", "application/json; charset=utf-8")
 }
