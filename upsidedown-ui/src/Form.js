@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import './Form.css'
 // import axios from 'axios'
 
-const url = "http://localhost:8081/upsidedown"
+const url = "http://localhost:8081/upsidedown/"
 
 class Form extends Component {
     constructor(props) {
@@ -43,23 +43,32 @@ class Form extends Component {
             body: JSON.stringify(data),
         }
 
-        fetch(url, request).then(res => {
-            const response = res.json();
-            console.log(response.body)
+        // fetch(url, request).then(res => {
+        //     const response = res.json();
+        //     console.log(response.body)
 
-            setTimeout(() => {
-                this.setState({
-                    sending: false,
-                    content: "",
-                })
-            }, 2500)
-        }).catch(error => {
-            console.error(error)
-            this.setState({
-                sending: false,
-                content: "",
-            })
-        })
+        //     setTimeout(() => {
+        //         this.setState({
+        //             sending: false,
+        //             content: "",
+        //         })
+        //     }, 2500)
+        // }).catch(error => {
+        //     console.error(error)
+        //     this.setState({
+        //         sending: false,
+        //         content: "",
+        //     })
+        // })
+
+        const res = await fetch(url, request)
+            .catch(err => {
+                console.error(err)
+            });
+
+        if (res){
+            console.log(res);
+        }
 
         setTimeout(() => {
             this.setState({

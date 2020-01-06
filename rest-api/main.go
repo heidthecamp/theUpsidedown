@@ -28,10 +28,11 @@ func main() {
 	router := mux.NewRouter()
 
 	router.HandleFunc("/", IsUp).Methods("GET")
-	router.HandleFunc("/upsidedown", GetMessages).Methods("GET")
+	router.HandleFunc("/upsidedown/", GetMessages).Methods("GET")
 	router.HandleFunc("/upsidedown/{id}", GetMessage).Methods("GET")
-	router.HandleFunc("/upsidedown", CreateMessage).Methods("POST")
+	router.HandleFunc("/upsidedown/", CreateMessage).Methods("POST")
 	router.HandleFunc("/upsidedown/{id}", DeleteMessage).Methods("DELETE")
+	router.HandleFunc("/upsidedown/",GetOptions).Methods("OPTIONS")
 
 	fmt.Println("Listening on localhost:8081")
 	log.Fatal(http.ListenAndServe(":8081", router))
@@ -128,6 +129,10 @@ func GetMessages(w http.ResponseWriter, r *http.Request) {
 	log.Println(string(print))
 }
 
+func GetOptions(w http.ResponseWriter, r *http.Request) {
+	return
+}
+
 func IsUp(w http.ResponseWriter, r *http.Request) {
 	SetCORSHeaders(w)
 
@@ -140,8 +145,9 @@ func IsUp(w http.ResponseWriter, r *http.Request) {
 
 func SetCORSHeaders(w http.ResponseWriter) {
 	header := w.Header()
-	header.Add("Access-Control-Allow-Origin", "*")
-	header.Add("Access-Control-Allow-Methods", "DELETE, POST, GET, OPTIONS")
-	header.Add("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With")
-	header.Add("Content-Type", "application/json; charset=utf-8")
+	// (*w).Header().Set("Access-Control-Allow-Origin", "*")
+	header.Set("Access-Control-Allow-Origin", "*")
+	header.Set("Access-Control-Allow-Methods", "DELETE, POST, GET, OPTIONS")
+	header.Set("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With")
+	header.Set("Content-Type", "application/json; charset=utf-8")
 }
