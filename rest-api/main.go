@@ -39,10 +39,6 @@ func main() {
 	log.Fatal(http.ListenAndServe(":8081", router))
 }
 
-func GetOptions(w http.ResponseWriter, r *http.Request) {
-	return
-}
-
 func genId() (id int) {
 	if len(message_arr) == 0 {
 		id = 1
