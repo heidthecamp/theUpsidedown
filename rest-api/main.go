@@ -28,11 +28,12 @@ func main() {
 	router := mux.NewRouter()
 
 	router.HandleFunc("/", IsUp).Methods("GET")
-	router.HandleFunc("/upsidedown/", GetMessages).Methods("GET")
+	router.HandleFunc("/upsidedown", GetOptions).Methods("OPTIONS")
+	router.HandleFunc("/upsidedown", GetMessages).Methods("GET")
 	router.HandleFunc("/upsidedown/{id}", GetMessage).Methods("GET")
 	router.HandleFunc("/upsidedown/", CreateMessage).Methods("POST")
 	router.HandleFunc("/upsidedown/{id}", DeleteMessage).Methods("DELETE")
-	router.HandleFunc("/upsidedown/",GetOptions).Methods("OPTIONS")
+	router.HandleFunc("/upsidedown/", GetOptions).Methods("OPTIONS")
 
 	fmt.Println("Listening on localhost:8081")
 	log.Fatal(http.ListenAndServe(":8081", router))
